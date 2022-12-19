@@ -1,0 +1,33 @@
+###получить все рецепты
+GET http://localhost:8080/recipe
+
+###создание рецепта1
+POST http://localhost:8080/recipe
+Content-Type: application/json
+
+{
+  "id": "1",
+  "name": "Сырники из творога",
+  "cookingTime": 30
+
+}
+
+###создание рецепта2
+POST http://localhost:8080/recipe
+Content-Type: application/json
+
+{
+  "id": "2",
+  "name": "Салат из красной фасоли с творожным сыром, красным луком и сезонным салатом",
+  "cookingTime": 30
+}
+
+###создание рецепта3
+POST http://localhost:8080/recipe
+Content-Type: application/json
+
+{
+  "id": "3",
+  "name": "Чечевичный суп с мятой",
+  "cookingTime": 30
+}
