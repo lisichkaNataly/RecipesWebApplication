@@ -1,7 +1,6 @@
 package me.izm.controller;
 
 import me.izm.model.Ingredient;
-import me.izm.model.Recipe;
 import me.izm.service.IngredientService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +16,10 @@ public class IngredientController {
         this.ingredientService = ingredientService;
     }
 
+    @GetMapping("{id}")
+    public Ingredient getIngredient(@PathVariable Integer id) {
+        return this.ingredientService.getIngredientById(id);
+    }
 
     @GetMapping
     public Collection<Ingredient> getAllIngredients() {

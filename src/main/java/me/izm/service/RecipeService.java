@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Service
 public class RecipeService {
-    private final Map<String, Recipe> recipes = new HashMap<>();
+    private final Map<Integer, Recipe> recipes = new HashMap<>();
 
     public Recipe addRecipe(Recipe recipe) {
         if (recipes.containsKey(recipe.getId())) {
@@ -21,7 +21,7 @@ public class RecipeService {
         return recipe;
     }
 
-    public Recipe getRecipeById(String id) {
+    public Recipe getRecipeById(Integer id) {
         if (recipes.containsKey(id)) {
             return recipes.get(id);
         } else {

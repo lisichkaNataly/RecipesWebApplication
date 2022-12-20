@@ -4,14 +4,18 @@ import java.util.*;
 
 public class Recipe {
 
-    private final String id;
+    private final Integer id;
     private final String name;
     private int cookingTime;
+    private List<Ingredient> ingredients;
+    private List<String> steps;
 
-    public Recipe(String id, String name, int cookingTime) {
+    public Recipe(Integer id, String name, int cookingTime, List<Ingredient> ingredients, List<String> steps) {
         this.id = id;
         this.name = name;
         this.cookingTime = cookingTime;
+        this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     public String getName() {
@@ -26,7 +30,7 @@ public class Recipe {
         this.cookingTime = cookingTime;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

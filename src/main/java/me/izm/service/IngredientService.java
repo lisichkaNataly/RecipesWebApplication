@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 @Service
 public class IngredientService {
-    private final Map<String, Ingredient> ingredients = new HashMap<>();
+    private final Map<Integer, Ingredient> ingredients = new HashMap<>();
 
     public Ingredient addIngredient(Ingredient ingredient) {
         if (ingredients.containsKey(ingredient.getId())) {
@@ -20,7 +20,7 @@ public class IngredientService {
         return ingredient;
     }
 
-    public Ingredient getIngredientById(String id) {
+    public Ingredient getIngredientById(Integer id) {
         if (ingredients.containsKey(id)) {
             return ingredients.get(id);
         } else {
