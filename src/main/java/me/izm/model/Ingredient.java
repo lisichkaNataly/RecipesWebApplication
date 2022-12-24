@@ -2,13 +2,11 @@ package me.izm.model;
 
 public class Ingredient {
 
-    private final Integer id;
     private final String name;
     private int count;
     private String measurement;
 
-    public Ingredient(Integer id, String name, int count, String measurement) {
-        this.id = id;
+    public Ingredient( String name, int count, String measurement) {
         this.name = name;
         this.count = count;
         this.measurement = measurement;
@@ -34,7 +32,4 @@ public class Ingredient {
         this.measurement = measurement;
     }
 
-    public Integer getId() {
-        return id;
-    }
 }

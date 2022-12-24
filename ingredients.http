@@ -1,15 +1,15 @@
 ###получить все ингредиенты
 GET http://localhost:8080/ingredient
+Content-Type: application/json
 
 ###добавление ингредиента1
 POST http://localhost:8080/ingredient
 Content-Type: application/json
 
 {
-  "id": "1",
   "name": "Творог",
 "count": 250,
-"measureUnit": "гр."
+"measurement": "гр."
 }
 
 ###добавление ингредиента2
@@ -17,10 +17,9 @@ POST http://localhost:8080/ingredient
 Content-Type: application/json
 
 {
-  "id": "2",
   "name": "Помидоры",
   "count": 3,
-  "measureUnit": "шт."
+  "measurement": "шт."
 }
 
 ###добавление ингредиента3
@@ -28,8 +27,16 @@ POST http://localhost:8080/ingredient
 Content-Type: application/json
 
 {
-  "id": "3",
+
   "name": "Огурцы",
   "count": 2,
-  "measureUnit": "шт."
+  "measurement": "шт."
 }
+
+###редактировать ингредиент
+PUT http://localhost:8080/ingredient/1
+Content-Type: application/json
+
+###удалить ингредиент
+DELETE http://localhost:8080/ingredient/1
+Content-Type: application/json
