@@ -12,14 +12,15 @@ import java.util.*;
 @Service
 public class RecipeServiceImpl implements RecipeService{
 
-    private final FilesService filesService;
+    private final RecipeFilesService recipeFilesService;
 
     private Map<Long, Recipe> recipeMap = new HashMap<>();
     public long counter = 0;
 
-    public RecipeServiceImpl(FilesService filesService) {
-        this.filesService = filesService;
+    public RecipeServiceImpl(RecipeFilesService recipeFilesService) {
+        this.recipeFilesService = recipeFilesService;
     }
+
 
     @PostConstruct
     private void init() {
@@ -59,14 +60,14 @@ public class RecipeServiceImpl implements RecipeService{
     private void saveToFile() {
         try {
           String json = new ObjectMapper().writeValueAsString(recipeMap);
-            filesService.saveToFile(json);
+            recipeFilesService.saveToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void readFromFile() {
-       String json =  filesService.readFromFile();
+       String json =  recipeFilesService.readFromFile();
         try {
             recipeMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Recipe>>() {
             });
