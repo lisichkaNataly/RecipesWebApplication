@@ -10,69 +10,69 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
-public class RecipeServiceImpl implements RecipeService{
+public class RecipeServiceImpl implements RecipeService {
 
-    private final RecipeFilesService recipeFilesService;
+        private final FilesServiceRecipe filesServiceRecipe;
 
-    private Map<Long, Recipe> recipeMap = new HashMap<>();
-    public long counter = 0;
+        private Map<Long, Recipe> recipeMap = new LinkedHashMap<>();
+        public long counter = 0;
 
-    public RecipeServiceImpl(RecipeFilesService recipeFilesService) {
-        this.recipeFilesService = recipeFilesService;
-    }
-
-
-    @PostConstruct
-    private void init() {
-        readFromFile();
-    }
-
-    @Override
-    public Recipe add(Recipe recipe) {
-        recipeMap.put(this.counter++, recipe);
-        saveToFile();
-        return recipe;
-    }
-
-    @Override
-    public Recipe get(Long id) {
-        return recipeMap.get(id);
-    }
-
-    @Override
-    public List<Recipe> getAll() {
-    return new ArrayList<>(this.recipeMap.values());
-    }
-    @Override
-    public Recipe update(long id, Recipe recipe) {
-        if (recipeMap.containsKey(id)) {
-            saveToFile();
-            return recipeMap.put(id, recipe);
+        public RecipeServiceImpl(FilesServiceRecipe filesServiceRecipe) {
+            this.filesServiceRecipe = filesServiceRecipe;
         }
-        return null;
-    }
 
-    @Override
-    public Recipe remove(long id) {
-        return recipeMap.remove(id);
-    }
+        @PostConstruct
+        private void init() {
+            readRecipeFromFile();
+        }
 
-    private void saveToFile() {
+        @Override
+        public Recipe add(Recipe recipe) {
+            recipeMap.put(this.counter++, recipe);
+            saveRecipeToFile();
+            return recipe;
+        }
+
+        @Override
+        public Recipe get(Long id) {
+            return recipeMap.get(id);
+        }
+
+        @Override
+        public List<Recipe> getAll() {
+            return new ArrayList<>(this.recipeMap.values());
+        }
+        @Override
+        public Recipe update(long id, Recipe recipe) {
+            if (recipeMap.containsKey(id)) {
+                saveRecipeToFile();
+                return recipeMap.put(id, recipe);
+            }
+            return null;
+        }
+
+        @Override
+        public Recipe remove(long id) {
+            return recipeMap.remove(id);
+        }
+
+    private void saveRecipeToFile() {
         try {
-          String json = new ObjectMapper().writeValueAsString(recipeMap);
-            recipeFilesService.saveToFile(json);
+            String json = new ObjectMapper().writeValueAsString(recipeMap);
+            filesServiceRecipe.saveRecipeToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void readFromFile() {
-       String json =  recipeFilesService.readFromFile();
+    private void readRecipeFromFile() {
         try {
-            recipeMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Recipe>>() {
+            String json = filesServiceRecipe.readRecipeFromFile();
+            recipeMap = new ObjectMapper().readValue(json, new TypeReference<Map<Long,Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+           throw new RuntimeException(e);
         }
     }
-}
+
+    }

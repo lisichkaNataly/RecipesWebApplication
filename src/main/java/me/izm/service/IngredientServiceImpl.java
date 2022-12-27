@@ -7,17 +7,23 @@ import me.izm.model.Ingredient;
 import me.izm.model.Recipe;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
 public class IngredientServiceImpl implements IngredientService{
 
     private final FilesService filesService;
-    private Map<Long, Ingredient> ingredientMap = new HashMap<>();
+    private Map<Long, Ingredient> ingredientMap = new LinkedHashMap<>();
     public long counter = 0;
 
     public IngredientServiceImpl(FilesService filesService) {
         this.filesService = filesService;
+    }
+
+    @PostConstruct
+    private void init() {
+        readFromFile();
     }
 
     @Override
@@ -63,7 +69,7 @@ public class IngredientServiceImpl implements IngredientService{
     private void readFromFile() {
         String json =  filesService.readFromFile();
         try {
-            ingredientMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Ingredient>>() {
+            ingredientMap = new ObjectMapper().readValue(json, new TypeReference<LinkedHashMap<Long, Ingredient>>() {
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

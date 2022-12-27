@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-@Service
-public class RecipeFilesServiceImpl implements RecipeFilesService{
-    @Value("${path.to.data.recipe}")
-    private String dataFilePathRecipe;
 
-    @Value("${name.of.data.recipe}")
-    private String dataFileNameRecipe;
+@Service
+public class FilesServiceRecipeImpl implements FilesServiceRecipe{
+    @Value("${path.to.recipe.file}")
+    private String recipeFilePath;
+    @Value("${name.of.recipe.file}")
+    private String recipeFileName;
 
     @Override
-    public boolean saveToFile(String json) {
+    public boolean saveRecipeToFile(String json) {
         try {
-            cleanDataFile();
-            Files.writeString(Path.of(dataFilePathRecipe, dataFileNameRecipe), json);
+            cleanRecipeFile();
+            Files.writeString(Path.of(recipeFilePath, recipeFileName), json);
             return true;
         } catch (IOException e) {
             return false;
@@ -26,17 +26,17 @@ public class RecipeFilesServiceImpl implements RecipeFilesService{
     }
 
     @Override
-    public String readFromFile() {
+    public String readRecipeFromFile() {
         try {
-            return Files.readString(Path.of(dataFilePathRecipe, dataFileNameRecipe));
+            return Files.readString(Path.of(recipeFilePath, recipeFileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private boolean cleanDataFile() {
+    private boolean cleanRecipeFile() {
         try {
-            Path path = Path.of(dataFilePathRecipe, dataFileNameRecipe);
+            Path path = Path.of(recipeFilePath, recipeFileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
             return true;
