@@ -1,8 +1,11 @@
 package me.izm.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,10 +19,11 @@ public class FilesServiceImpl implements FilesService {
     @Value("${name.of.ingredient.file}")
     private String ingredientFileName;
 
+
     @Override
     public boolean saveToFile(String json) {
         try {
-            cleanDataFile();
+            cleanIngredientFile();
             Files.writeString(Path.of(ingredientFilePath, ingredientFileName), json);
             return true;
         } catch (IOException e) {
@@ -36,7 +40,14 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-    private boolean cleanDataFile() {
+    @Override
+    public File getIngredientFile() {
+        return new File(ingredientFilePath + "/" + ingredientFileName);
+    }
+
+
+    @Override
+    public boolean cleanIngredientFile() {
         try {
             Path path = Path.of(ingredientFilePath, ingredientFileName);
             Files.deleteIfExists(path);

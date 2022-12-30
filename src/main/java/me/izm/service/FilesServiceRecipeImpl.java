@@ -3,6 +3,7 @@ package me.izm.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +35,13 @@ public class FilesServiceRecipeImpl implements FilesServiceRecipe{
         }
     }
 
-    private boolean cleanRecipeFile() {
+    @Override
+    public File getRecipeFile() {
+        return new File(recipeFilePath + "/" + recipeFileName);
+    }
+
+    @Override
+    public boolean cleanRecipeFile() {
         try {
             Path path = Path.of(recipeFilePath, recipeFileName);
             Files.deleteIfExists(path);
