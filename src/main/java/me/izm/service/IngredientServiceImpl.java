@@ -4,14 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.izm.model.Ingredient;
-import me.izm.model.Recipe;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.Month;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 @Service
@@ -61,7 +61,9 @@ public class IngredientServiceImpl implements IngredientService{
         return ingredientMap.remove(id);
     }
 
-    private void saveToFile() {
+
+
+        private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(ingredientMap);
             filesService.saveToFile(json);

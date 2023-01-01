@@ -16,5 +16,6 @@ public class Recipe {
     private List<String> steps;
 
 
-
+    public Recipe(String s, Integer valueOf, String s1) {
+    }
 }

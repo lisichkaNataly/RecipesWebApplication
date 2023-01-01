@@ -1,6 +1,7 @@
 package me.izm.service;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public interface FilesServiceRecipe {
     boolean saveRecipeToFile(String json);
@@ -9,6 +10,9 @@ public interface FilesServiceRecipe {
     String readRecipeFromFile();
 
     File getRecipeFile();
+
+
+    Path createTempFile(String suffix);
 
     boolean cleanRecipeFile();
 }

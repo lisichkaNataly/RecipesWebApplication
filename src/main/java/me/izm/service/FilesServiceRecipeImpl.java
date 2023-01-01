@@ -41,6 +41,15 @@ public class FilesServiceRecipeImpl implements FilesServiceRecipe{
     }
 
     @Override
+    public Path createTempFile(String suffix) {
+        try {
+           return Files.createTempFile(Path.of(recipeFilePath), "tempFile", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public boolean cleanRecipeFile() {
         try {
             Path path = Path.of(recipeFilePath, recipeFileName);

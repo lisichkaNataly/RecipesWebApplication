@@ -9,9 +9,13 @@ import me.izm.model.Ingredient;
 import me.izm.model.Recipe;
 import me.izm.service.IngredientServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,8 +33,9 @@ public class IngredientController {
     @GetMapping("{id}")
     @Operation(summary = "Поиск ингредиента", description = "нужно искать ингредиент по id")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "ингредиент был найден"),
-            @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
-            @ApiResponse(responseCode = "500", description = "сервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос")})
+            @ApiResponse(responseCode = "400", description = "есть ошибка в параметрах запроса"),
+            @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении"),
+            @ApiResponse(responseCode = "500", description = "во время выполнения запроса произошла ошибка на сервере")})
     public Ingredient getIngredient(@PathVariable long id) {
         return this.ingredientService.get(id);
     }
@@ -59,18 +64,21 @@ public class IngredientController {
     @Operation(summary = "Редактирование ингредиента",
             description = "можно редактировать по id как один параметр, так и несколько в том числе название, количество, единицу измерения")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "ингредиент был успешно отредактирован"),
-            @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
-            @ApiResponse(responseCode = "500", description = "сервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос")})
+            @ApiResponse(responseCode = "400", description = "есть ошибка в параметрах запроса"),
+            @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении"),
+            @ApiResponse(responseCode = "500", description = "во время выполнения запроса произошла ошибка на сервере")})
     public Ingredient updateIngredient(@PathVariable("id") long id, @RequestBody Ingredient ingredient) {
         return ingredientService.update(id, ingredient);
     }
+
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление ингредиента",
             description = "можно удалить ингредиент только по id")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "ингредиент успешно удален"),
-            @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
-    @ApiResponse(responseCode = "500", description = "сервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос")})
+            @ApiResponse(responseCode = "400", description = "есть ошибка в параметрах запроса"),
+            @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении"),
+            @ApiResponse(responseCode = "500", description = "во время выполнения запроса произошла ошибка на сервере")})
     public Ingredient deleteIngredient(@PathVariable("id") long id) {
         return ingredientService.remove(id);
     }
