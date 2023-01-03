@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.izm.model.Recipe;
+import me.izm.service.CustomException;
 import me.izm.service.RecipeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
@@ -76,7 +77,7 @@ public class RecipeController {
             recipeService.addRecipesFromInputStream(stream);
             return ResponseEntity.ok().build();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CustomException();
         }
     }
 

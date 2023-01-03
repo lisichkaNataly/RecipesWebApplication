@@ -1,7 +1,9 @@
 package me.izm.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class FilesServiceRecipeImpl implements FilesServiceRecipe{
         try {
             return Files.readString(Path.of(recipeFilePath, recipeFileName));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CustomException();
         }
     }
 
@@ -45,7 +47,7 @@ public class FilesServiceRecipeImpl implements FilesServiceRecipe{
         try {
            return Files.createTempFile(Path.of(recipeFilePath), "tempFile", suffix);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CustomException();
         }
     }
 

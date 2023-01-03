@@ -36,7 +36,7 @@ public class FilesServiceImpl implements FilesService {
         try {
            return Files.readString(Path.of(ingredientFilePath, ingredientFileName));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CustomException();
         }
     }
 
