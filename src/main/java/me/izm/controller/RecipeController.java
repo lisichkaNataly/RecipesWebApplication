@@ -9,21 +9,23 @@ import me.izm.model.Recipe;
 import me.izm.service.CustomException;
 import me.izm.service.RecipeService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 
 @RestController
 @Tag(name = "Рецепты", description = "CRUD операции и другие эндпоинты для работы с рецептами")
 @RequestMapping("/recipe")
 public class RecipeController {
-    private final RecipeService recipeService;
+
+    public RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -78,6 +80,27 @@ public class RecipeController {
             return ResponseEntity.ok().build();
         } catch (IOException e) {
             throw new CustomException();
+        }
+    }
+
+    @GetMapping("/export/recipes/txt")
+    @Operation(summary = "Скачивание рецептов в формате txt",
+            description = "можно скачать рецепты файлом txt")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "все хорошо, запрос выполнился"),
+            @ApiResponse(responseCode = "400", description = "есть ошибка в параметрах запроса"),
+            @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении"),
+            @ApiResponse(responseCode = "500", description = "во время выполнения запроса произошла ошибка на сервере")})
+    public ResponseEntity<InputStreamResource> downloadRecipeTxtFile(){
+        File downloadedFile = recipeService.createRecipesTxtFile();
+        try {
+            InputStreamResource stream = new InputStreamResource(new FileInputStream(downloadedFile));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentLength(downloadedFile.length())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"recipes.txt\"")
+                    .body(stream);
+        } catch (IOException e) {
+            return ResponseEntity.noContent().build();
         }
     }
 

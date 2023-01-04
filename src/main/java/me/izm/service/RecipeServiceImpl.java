@@ -9,14 +9,17 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private final FilesServiceRecipe filesServiceRecipe;
+    private FilesServiceRecipe filesServiceRecipe;
 
-    private Map<Long, Recipe> recipeMap = new LinkedHashMap<>();
+    private Map<Long, Recipe> recipeMap = new TreeMap<>();
     public long counter = 0;
 
     public RecipeServiceImpl(FilesServiceRecipe filesServiceRecipe) {
@@ -98,6 +101,20 @@ public class RecipeServiceImpl implements RecipeService {
         } catch (JsonProcessingException e) {
             throw new CustomException();
         }
+    }
+
+    @Override
+    public File createRecipesTxtFile() {
+        Path path = filesServiceRecipe.createTempFile("Recipes");
+        try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)){
+            for (Recipe recipe : recipeMap.values()) {
+                writer.append(recipe.toString());
+                writer.append("\n");
+            }
+        } catch (IOException e) {
+            throw new CustomException();
+        }
+        return path.toFile();
     }
 
 

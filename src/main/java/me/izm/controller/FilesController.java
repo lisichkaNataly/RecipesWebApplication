@@ -32,7 +32,7 @@ public class FilesController {
         this.filesService = filesService;
     }
 
-    @GetMapping("download/recipes")
+    @GetMapping("export/recipes")
     @Operation(summary = "Скачать рецепты в виде json-файла")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "файл успешно скачался"),
             @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
@@ -52,7 +52,8 @@ public class FilesController {
         }
     }
 
-    @GetMapping("upload/recipes")
+
+    @GetMapping("import/recipes")
     @Operation(summary = "Загрузить файл с рецептами", description = "принимает json-файл с рецептами и заменяет сохраненный на жестком (локальном) диске файл на новый")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "файл успешно загружен"),
             @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
@@ -70,7 +71,7 @@ public class FilesController {
     }
 
 
-    @GetMapping("upload/ingredients")
+    @GetMapping("import/ingredients")
     @Operation(summary = "Загрузить файл с ингредиентами", description = "принимает json-файл с ингредиентами и заменяет сохраненный на жестком (локальном) диске файл на новый")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "файл успешно загружен"),
             @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
