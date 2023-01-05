@@ -83,27 +83,6 @@ public class RecipeController {
         }
     }
 
-    @GetMapping("/export/recipes/txt")
-    @Operation(summary = "Скачивание рецептов в формате txt",
-            description = "можно скачать рецепты файлом txt")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "все хорошо, запрос выполнился"),
-            @ApiResponse(responseCode = "400", description = "есть ошибка в параметрах запроса"),
-            @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении"),
-            @ApiResponse(responseCode = "500", description = "во время выполнения запроса произошла ошибка на сервере")})
-    public ResponseEntity<InputStreamResource> downloadRecipeTxtFile(){
-        File downloadedFile = recipeService.createRecipesTxtFile();
-        try {
-            InputStreamResource stream = new InputStreamResource(new FileInputStream(downloadedFile));
-            return ResponseEntity.ok()
-                    .contentType(MediaType.TEXT_PLAIN)
-                    .contentLength(downloadedFile.length())
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"recipes.txt\"")
-                    .body(stream);
-        } catch (IOException e) {
-            return ResponseEntity.noContent().build();
-        }
-    }
-
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление рецепта",
