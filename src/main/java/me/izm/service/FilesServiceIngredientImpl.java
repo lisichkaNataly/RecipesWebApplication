@@ -1,7 +1,5 @@
 package me.izm.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class FilesServiceImpl implements FilesService {
+public class FilesServiceIngredientImpl implements FilesServiceIngredient {
 
     @Value("${path.to.ingredient.file}")
     private String ingredientFilePath;

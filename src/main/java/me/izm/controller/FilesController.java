@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.izm.service.FilesService;
+import me.izm.service.FilesServiceIngredient;
 import me.izm.service.FilesServiceRecipe;
 import me.izm.service.RecipeService;
 import org.apache.commons.io.IOUtils;
@@ -26,13 +26,13 @@ import java.io.*;
 @RequestMapping("files")
 public class FilesController {
     private final FilesServiceRecipe filesServiceRecipe;
-    private final FilesService filesService;
+    private final FilesServiceIngredient filesServiceIngredient;
 
     private final RecipeService recipeService;
 
-    public FilesController(FilesServiceRecipe filesServiceRecipe, FilesService filesService, RecipeService recipeService) {
+    public FilesController(FilesServiceRecipe filesServiceRecipe, FilesServiceIngredient filesServiceIngredient, RecipeService recipeService) {
         this.filesServiceRecipe = filesServiceRecipe;
-        this.filesService = filesService;
+        this.filesServiceIngredient = filesServiceIngredient;
         this.recipeService = recipeService;
     }
 
@@ -104,8 +104,8 @@ public class FilesController {
             @ApiResponse(responseCode = "400", description = "плохой запрос, отправлен некорректный запрос серверу"),
             @ApiResponse(responseCode = "500", description = "сервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос")})
     public ResponseEntity<Void> uploadIngredientFile(@RequestParam MultipartFile file) {
-        filesService.cleanIngredientFile();
-        File fileIngredient = filesService.getIngredientFile();
+        filesServiceIngredient.cleanIngredientFile();
+        File fileIngredient = filesServiceIngredient.getIngredientFile();
         try (FileOutputStream fos = new FileOutputStream(fileIngredient)){
             IOUtils.copy(file.getInputStream(), fos);
             return ResponseEntity.ok().build();

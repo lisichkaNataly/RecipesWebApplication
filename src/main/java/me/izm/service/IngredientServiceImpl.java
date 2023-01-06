@@ -4,24 +4,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.izm.model.Ingredient;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
 @Service
 public class IngredientServiceImpl implements IngredientService{
 
-    private final FilesService filesService;
+    private final FilesServiceIngredient filesService;
     private Map<Long, Ingredient> ingredientMap = new LinkedHashMap<>();
     public long counter = 0;
 
-    public IngredientServiceImpl(FilesService filesService) {
+    public IngredientServiceImpl(FilesServiceIngredient filesService) {
         this.filesService = filesService;
     }
 
