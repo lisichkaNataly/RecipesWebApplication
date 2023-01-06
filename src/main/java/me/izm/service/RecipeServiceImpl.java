@@ -89,7 +89,7 @@ public class RecipeServiceImpl implements RecipeService {
             String json = new ObjectMapper().writeValueAsString(map);
             filesServiceRecipe.saveRecipeToFile(json);
         } catch (JsonProcessingException e) {
-            throw new CustomException();
+            throw new SaveRecipeException();
         }
     }
 
@@ -99,20 +99,20 @@ public class RecipeServiceImpl implements RecipeService {
             recipeMap = new ObjectMapper().readValue(json, new TypeReference<LinkedHashMap<Long, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new CustomException();
+            throw new ReadRecipeException();
         }
     }
 
     @Override
     public File createRecipesTxtFile() {
-        Path path = filesServiceRecipe.createTempFile("Recipes");
+        Path path = filesServiceRecipe.createTempFile("Рецепты");
         try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)){
             for (Recipe recipe : recipeMap.values()) {
                 writer.append(recipe.toString());
                 writer.append("\n");
             }
         } catch (IOException e) {
-            throw new CustomException();
+            throw new RecipeNotFoundException();
         }
         return path.toFile();
     }

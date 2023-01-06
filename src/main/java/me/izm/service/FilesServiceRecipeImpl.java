@@ -31,7 +31,7 @@ public class FilesServiceRecipeImpl implements FilesServiceRecipe{
         try {
             return Files.readString(Path.of(recipeFilePath, recipeFileName));
         } catch (IOException e) {
-            throw new CustomException();
+            throw new ReadRecipeException();
         }
     }
 
@@ -45,7 +45,7 @@ public class FilesServiceRecipeImpl implements FilesServiceRecipe{
         try {
            return Files.createTempFile(Path.of(recipeFilePath), "tempFile", suffix);
         } catch (IOException e) {
-            throw new CustomException();
+            throw new SaveRecipeException();
         }
     }
 
